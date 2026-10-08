@@ -3,9 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>دوائي - التذكيرات الذكية</title>
+  <title>دوائي - المنصة الطبية الذكية</title>
   <meta name="theme-color" content="#0F766E">
-  <link rel="manifest" href="./manifest.json">
+  
+  <!-- Dynamic PWA Manifest with Embedded SVG Icon -->
+  <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiZHV3YWkiLCJzaG9ydF9uYW1lIjoiZHV3YWkiLCJzdGFydF91cmwiOiIuL2luZGV4Lmh0bWwiLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjRjhGQUZDIiwidGhlbWVfY2olorMiOiIjMEY3NjZFIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZDY0LFBISjFiSFJ3Y3locFkyVnlkWEpwYm1jdWJHVjBaWE11YUdGeWQyNW5hV2RwYmlJc0ZvQlVjSEJwY3locFkyVnlkWEpwYm1jdWJHVjBaWE11YUdGeWQyNW5hV2RwYmlJd01GRUZSbTl2Ym5Za0lGTlVZWFJwWkc5dGJXOWZabTl2Ym5ZZ2FXNWhiV1VzSUNsd2MyVnlMbUZzZEdsdmJuTnBiMjV2ZEdWdWRITWdWR2hsSUdsdWRITWdhWE56YVdVc0lDSnBhR2x1WnlJNklrNWxJRlZ3WVhScFpGeHZkWEpwYm1sdmJnPT0iLCJzaXplcyI6IjE5MnhEOTIiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCJ9XX0=">
+  
   <style>
     :root {
       --md-primary: #0F766E;
@@ -48,10 +51,7 @@
 
     [data-font-size="large"] { --font-scale: 1.18rem; }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-     
-     -webkit-tap-highlight-color: transparent;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background-color: var(--md-background); color: var(--md-on-surface); display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; font-size: var(--font-scale); }
 
     .mobile-container { width: 100%; max-width: 430px; height: 100vh; max-height: 932px; background-color: var(--md-background); display: flex; flex-direction: column; position: relative; overflow: hidden; }
@@ -62,7 +62,7 @@
 
     header { padding: 16px 20px; background-color: var(--md-background); display: flex; justify-content: space-between; align-items: center; z-index: 10; }
     .brand-logo { display: flex; align-items: center; gap: 10px; }
-    .logo-icon { width: 40px; height: 40px; background: var(--md-primary); color: var(--md-on-primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; }
+    .logo-box { width: 42px; height: 42px; background: var(--md-primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3); }
     .app-title { font-size: calc(var(--font-scale) * 1.3); font-weight: 800; }
     .header-actions { display: flex; gap: 8px; }
     .icon-btn { background: var(--md-surface-variant); border: none; color: var(--md-on-surface); width: 42px; height: 42px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: 700; }
@@ -70,7 +70,7 @@
     .view-container { flex: 1; overflow-y: auto; padding: 12px 20px 105px 20px; }
     .view-container::-webkit-scrollbar { display: none; }
 
-    .bottom-nav { position: absolute; bottom: 10px; left: 10px; right: 10px; height: 84px; background-color: var(--md-surface); border-radius: var(--radius-xl); border-top-right-radius: var(--radius-xl); display: flex; justify-content: space-around; align-items: center; box-shadow: 0px -4px 20px rgba(0,0,0,0.06); z-index: 20; }
+    .bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; height: 84px; background-color: var(--md-surface); border-top-left-radius: var(--radius-xl); border-top-right-radius: var(--radius-xl); display: flex; justify-content: space-around; align-items: center; box-shadow: 0px -4px 20px rgba(0,0,0,0.06); z-index: 20; }
     .nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; flex: 1; color: var(--md-on-surface-variant); cursor: pointer; font-size: calc(var(--font-scale) * 0.72); font-weight: 700; gap: 4px; }
     .nav-icon-wrapper { width: 52px; height: 32px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; }
     .nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2.2; }
@@ -81,7 +81,7 @@
     .card-primary { background: linear-gradient(135deg, var(--md-primary), #0D9488); color: #FFFFFF; border: none; }
     .card-notification { background-color: var(--md-primary-container); color: var(--md-on-primary-container); border: none; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
 
-    .fab { position: absolute; bottom: 120px; left: 20px; background-color: var(--md-primary); color: var(--md-on-primary); border: none; border-radius: var(--radius-md); padding: 14px 22px; font-size: var(--font-scale); font-weight: 700; display: flex; align-items: center; gap: 10px; box-shadow: 0px 8px 20px rgba(15, 118, 110, 0.3); cursor: pointer; z-index: 15; }
+    .fab { position: absolute; bottom: 98px; left: 20px; background-color: var(--md-primary); color: var(--md-on-primary); border: none; border-radius: var(--radius-md); padding: 14px 22px; font-size: var(--font-scale); font-weight: 700; display: flex; align-items: center; gap: 10px; box-shadow: 0px 8px 20px rgba(15, 118, 110, 0.3); cursor: pointer; z-index: 15; }
     .btn { display: inline-flex; align-items: center; justify-content: center; background-color: var(--md-primary); color: var(--md-on-primary); border: none; border-radius: var(--radius-full); padding: 14px 24px; font-size: var(--font-scale); font-weight: 700; cursor: pointer; min-height: 50px; width: 100%; }
     .btn-secondary { background-color: var(--md-surface-variant); color: var(--md-on-surface-variant); }
 
@@ -109,8 +109,9 @@
 
     <header>
       <div class="brand-logo">
-        <div class="logo-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4.5 16.5c-1.5 1.5-1.5 4 0 5.5s4 1.5 5.5 0L20.5 11.5c1.5-1.5 1.5-4 0-5.5s-4-1.5-5.5 0L4.5 16.5z"/><path d="m12 15-3-3"/><path d="m17 10-3-3"/></svg>
+        <div class="logo-box">
+          <!-- Square Medical Icon Vector -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><path d="M4.5 16.5c-1.5 1.5-1.5 4 0 5.5s4 1.5 5.5 0L20.5 11.5c1.5-1.5 1.5-4 0-5.5s-4-1.5-5.5 0L4.5 16.5z"/><path d="m12 15-3-3"/><path d="m17 10-3-3"/></svg>
         </div>
         <div class="app-title">دوائي</div>
       </div>
@@ -143,7 +144,7 @@
         السجل
       </button>
       <button class="nav-item" onclick="switchTab('settings', this)">
-        <div class="nav-icon-wrapper"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+        <div class="nav-icon-wrapper"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l-.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
         الإعدادات
       </button>
     </nav>
@@ -157,14 +158,12 @@
   <script>
     let swRegistration = null;
 
-    // 1. تسجيل Service Worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js').then((reg) => {
         swRegistration = reg;
       }).catch((err) => console.log('SW Error:', err));
     }
 
-    // 2. طلب إذن الإشعارات
     function requestNotificationPermission() {
       if ('Notification' in window) {
         Notification.requestPermission().then((permission) => {
@@ -176,7 +175,6 @@
       }
     }
 
-    // 3. إرسال إشعار للنظام
     function triggerSystemNotification(title, body, tag) {
       if (swRegistration && Notification.permission === 'granted') {
         swRegistration.active.postMessage({
@@ -188,12 +186,11 @@
       }
     }
 
-    /* State */
     let state = {
       activeTab: 'home',
       medications: JSON.parse(localStorage.getItem('duwai_pro_meds') || '[]'),
       doseLogs: JSON.parse(localStorage.getItem('duwai_pro_logs') || '[]'),
-      settings: JSON.parse(localStorage.getItem('duwai_pro_settings') || '{"userName":"","theme":"light","fontSize":"normal"}')
+      settings: JSON.parse(localStorage.getItem('duwai_pro_settings') || '{"userName":"محمد","theme":"light","fontSize":"normal"}')
     };
 
     function saveState() {
@@ -225,6 +222,7 @@
       state.settings.fontSize = state.settings.fontSize === 'normal' ? 'large' : 'normal';
       applyFontSize(state.settings.fontSize);
       saveState();
+      showToast(state.settings.fontSize === 'large' ? 'تم تكبير الخط لتسهيل القراءة' : 'وضع الخط العادي');
     }
 
     function genDailySchedule() {
@@ -242,7 +240,6 @@
       saveState();
     }
 
-    // 4. الفحص الدوري وإرسال التنبيهات في الموعد المحدد
     function checkAndNotifyDoses() {
       const today = getTodayStr();
       const now = new Date();
@@ -254,7 +251,7 @@
           if (med) {
             triggerSystemNotification(
               `تذكير بموعد دواء: ${med.name}`,
-              `حان الآن موعد جرعة ${med.dosage} (${med.quantity || 'حبة واحدة'})`,
+              `حان الآن موعد جرعة ${med.dosage}`,
               log.id
             );
             log.notified = true;
@@ -264,7 +261,6 @@
       });
     }
 
-    // فحص المواعيد كل 30 ثانية
     setInterval(checkAndNotifyDoses, 30000);
 
     function switchTab(tab, el) {
@@ -296,7 +292,7 @@
         const logs = state.doseLogs.filter(l => l.date === today);
         const upcoming = logs.find(l => l.status === 'Upcoming');
 
-        let nextCard = `<div class="card" style="text-align:center; color: var(--md-on-surface-variant);">لا توجد جرعات قادمة حالياً.</div>`;
+        let nextCard = `<div class="card" style="text-align:center; color: var(--md-on-surface-variant);">لا توجد جرعات قادمة حالياً. استمتع بيومك!</div>`;
 
         if (upcoming) {
           const med = state.medications.find(m => m.id === upcoming.medicationId);
@@ -327,12 +323,12 @@
               <span class="chip chip-${l.status.toLowerCase()}">${l.status === 'Taken' ? 'تمت' : 'قادمة'}</span>
             </div>
           `;
-        }).join('') || '<div style="text-align:center; padding:20px;">لم تضف أي أدوية بعد</div>';
+        }).join('') || '<div style="text-align:center; padding:20px; color:var(--md-on-surface-variant);">لم تضف أي أدوية بعد اليوم</div>';
 
         container.innerHTML = `
           ${notifBanner}
           <h2 style="font-size:1.6rem; font-weight:800; margin-bottom:4px;">مرحباً، ${state.settings.userName}</h2>
-          <p style="color:var(--md-on-surface-variant); margin-bottom:16px;">جدول جرعاتك اليومي</p>
+          <p style="color:var(--md-on-surface-variant); margin-bottom:16px;">جدول جرعاتك اليومي منظم بدقة</p>
           ${nextCard}
           <h3 style="font-size:1.1rem; font-weight:700; margin:22px 0 12px 0;">مواعيد اليوم</h3>
           <div class="card">${logsList}</div>
@@ -341,16 +337,16 @@
         const medsList = state.medications.map(m => `
           <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
             <div>
-              <h4 style="font-size:1.1rem; font-weight:700;">${m.name}</h4>
+              <h4 style="font-size:1.1rem; font-weight:700; margin-bottom:4px;">${m.name}</h4>
               <p style="font-size:0.85rem; color:var(--md-on-surface-variant);">${m.dosage}</p>
             </div>
             <button class="btn btn-secondary" style="width:auto; padding:6px 12px; min-height:36px;" onclick="deleteMed('${m.id}')">حذف</button>
           </div>
-        `).join('') || '<div style="text-align:center; padding:40px;">لا توجد أدوية مسجلة</div>';
+        `).join('') || '<div style="text-align:center; padding:40px; color:var(--md-on-surface-variant);">لا توجد أدوية مسجلة حالياً</div>';
 
         container.innerHTML = `<h2 style="font-size:1.5rem; font-weight:800; margin-bottom:16px;">أدويتي</h2>${medsList}`;
       } else if (state.activeTab === 'history') {
-        container.innerHTML = `<h2 style="font-size:1.5rem; font-weight:800; margin-bottom:16px;">السجل</h2><div class="card"><p style="text-align:center; padding:20px;">سجل الجرعات المكتملة يعرض هنا.</p></div>`;
+        container.innerHTML = `<h2 style="font-size:1.5rem; font-weight:800; margin-bottom:16px;">السجل</h2><div class="card"><p style="text-align:center; padding:20px; color:var(--md-on-surface-variant);">سجل الجرعات المكتملة يعرض هنا.</p></div>`;
       } else if (state.activeTab === 'settings') {
         container.innerHTML = `
           <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:16px;">الإعدادات</h2>
