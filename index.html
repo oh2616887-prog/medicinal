@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light" data-font-size="normal">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>دوائي - التذكيرات الذكية</title>
+  <meta name="theme-color" content="#0F766E">
+  <link rel="manifest" href="./manifest.json">
+  <style>
+    :root {
+      --md-primary: #0F766E;
+      --md-on-primary: #FFFFFF;
+      --md-primary-container: #CCFBF1;
+      --md-on-primary-container: #042F2E;
+      --md-background: #F8FAFC;
+      --md-surface: #FFFFFF;
+      --md-surface-variant: #F1F5F9;
+      --md-on-surface: #0F172A;
+      --md-on-surface-variant: #475569;
+      --md-outline: #CBD5E1;
+      --md-error-container: #FEE2E2;
+      --md-on-error-container: #991B1B;
+      --md-warning-container: #FEF3C7;
+      --md-on-warning-container: #92400E;
+
+      --radius-full: 9999px;
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+
+      --font-scale: 1rem;
+      --shadow-elevation: 0px 10px 25px -5px rgba(15, 23, 42, 0.05);
+    }
+
+    [data-theme="dark"] {
+      --md-primary: #2DD4BF;
+      --md-on-primary: #042F2E;
+      --md-primary-container: #115E59;
+      --md-on-primary-container: #CCFBF1;
+      --md-background: #090D16;
+      --md-surface: #111827;
+      --md-surface-variant: #1F2937;
+      --md-on-surface: #F9FAFB;
+      --md-on-surface-variant: #9CA3AF;
+      --md-outline: #374151;
+    }
+
+    [data-font-size="large"] { --font-scale: 1.18rem; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+     
+     -webkit-tap-highlight-color: transparent;
+    }
+    body { background-color: var(--md-background); color: var(--md-on-surface); display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; font-size: var(--font-scale); }
+
+    .mobile-container { width: 100%; max-width: 430px; height: 100vh; max-height: 932px; background-color: var(--md-background); display: flex; flex-direction: column; position: relative; overflow: hidden; }
+
+    @media (min-width: 481px) {
+      .mobile-container { border-radius: var(--radius-xl); border: 12px solid #1E293B; height: 860px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3); }
+    }
+
+    header { padding: 16px 20px; background-color: var(--md-background); display: flex; justify-content: space-between; align-items: center; z-index: 10; }
+    .brand-logo { display: flex; align-items: center; gap: 10px; }
+    .logo-icon { width: 40px; height: 40px; background: var(--md-primary); color: var(--md-on-primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; }
+    .app-title { font-size: calc(var(--font-scale) * 1.3); font-weight: 800; }
+    .header-actions { display: flex; gap: 8px; }
+    .icon-btn { background: var(--md-surface-variant); border: none; color: var(--md-on-surface); width: 42px; height: 42px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: 700; }
+
+    .view-container { flex: 1; overflow-y: auto; padding: 12px 20px 105px 20px; }
+    .view-container::-webkit-scrollbar { display: none; }
+
+    .bottom-nav { position: absolute; bottom: 10px; left: 10px; right: 10px; height: 84px; background-color: var(--md-surface); border-radius: var(--radius-xl); border-top-right-radius: var(--radius-xl); display: flex; justify-content: space-around; align-items: center; box-shadow: 0px -4px 20px rgba(0,0,0,0.06); z-index: 20; }
+    .nav-item { background: none; border: none; display: flex; flex-direction: column; align-items: center; flex: 1; color: var(--md-on-surface-variant); cursor: pointer; font-size: calc(var(--font-scale) * 0.72); font-weight: 700; gap: 4px; }
+    .nav-icon-wrapper { width: 52px; height: 32px; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; }
+    .nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2.2; }
+    .nav-item.active .nav-icon-wrapper { background-color: var(--md-primary-container); color: var(--md-on-primary-container); }
+    .nav-item.active { color: var(--md-primary); }
+
+    .card { background-color: var(--md-surface); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow-elevation); border: 1px solid var(--md-outline); }
+    .card-primary { background: linear-gradient(135deg, var(--md-primary), #0D9488); color: #FFFFFF; border: none; }
+    .card-notification { background-color: var(--md-primary-container); color: var(--md-on-primary-container); border: none; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+
+    .fab { position: absolute; bottom: 120px; left: 20px; background-color: var(--md-primary); color: var(--md-on-primary); border: none; border-radius: var(--radius-md); padding: 14px 22px; font-size: var(--font-scale); font-weight: 700; display: flex; align-items: center; gap: 10px; box-shadow: 0px 8px 20px rgba(15, 118, 110, 0.3); cursor: pointer; z-index: 15; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; background-color: var(--md-primary); color: var(--md-on-primary); border: none; border-radius: var(--radius-full); padding: 14px 24px; font-size: var(--font-scale); font-weight: 700; cursor: pointer; min-height: 50px; width: 100%; }
+    .btn-secondary { background-color: var(--md-surface-variant); color: var(--md-on-surface-variant); }
+
+    .chip { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: var(--radius-sm); font-size: calc(var(--font-scale) * 0.75); font-weight: 700; }
+    .chip-upcoming { background-color: var(--md-surface-variant); color: var(--md-on-surface); }
+    .chip-taken { background-color: var(--md-primary-container); color: var(--md-on-primary-container); }
+
+    .form-group { margin-bottom: 18px; }
+    label { display: block; font-size: calc(var(--font-scale) * 0.85); font-weight: 700; margin-bottom: 8px; }
+    input, select { width: 100%; padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid var(--md-outline); background-color: var(--md-surface); color: var(--md-on-surface); font-size: var(--font-scale); }
+
+    .modal-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 100; display: flex; justify-content: flex-end; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .bottom-sheet { background-color: var(--md-surface); border-top-left-radius: var(--radius-xl); border-top-right-radius: var(--radius-xl); max-height: 85vh; overflow-y: auto; padding: 28px 24px; transform: translateY(100%); transition: transform 0.35s; }
+    .modal-overlay.active .bottom-sheet { transform: translateY(0); }
+
+    .toast { position: absolute; top: 20px; left: 20px; right: 20px; background-color: var(--md-on-surface); color: var(--md-surface); padding: 16px 20px; border-radius: var(--radius-md); font-size: var(--font-scale); font-weight: 600; z-index: 200; transform: translateY(-150%); transition: transform 0.3s; }
+    .toast.show { transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <div class="mobile-container">
+    <div id="toast" class="toast"><span id="toastMsg">تم الإجراء بنجاح</span></div>
+
+    <header>
+      <div class="brand-logo">
+        <div class="logo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4.5 16.5c-1.5 1.5-1.5 4 0 5.5s4 1.5 5.5 0L20.5 11.5c1.5-1.5 1.5-4 0-5.5s-4-1.5-5.5 0L4.5 16.5z"/><path d="m12 15-3-3"/><path d="m17 10-3-3"/></svg>
+        </div>
+        <div class="app-title">دوائي</div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" onclick="toggleFontSize()">A±</button>
+        <button class="icon-btn" onclick="toggleTheme()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="view-container" id="mainView"></main>
+
+    <button class="fab" onclick="openAddMedModal()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <span>إضافة دواء</span>
+    </button>
+
+    <nav class="bottom-nav">
+      <button class="nav-item active" onclick="switchTab('home', this)">
+        <div class="nav-icon-wrapper"><svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+        الرئيسية
+      </button>
+      <button class="nav-item" onclick="switchTab('medications', this)">
+        <div class="nav-icon-wrapper"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12h6"/><path d="M12 9v6"/></svg></div>
+        الأدوية
+      </button>
+      <button class="nav-item" onclick="switchTab('history', this)">
+        <div class="nav-icon-wrapper"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        السجل
+      </button>
+      <button class="nav-item" onclick="switchTab('settings', this)">
+        <div class="nav-icon-wrapper"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+        الإعدادات
+      </button>
+    </nav>
+
+    <div id="modalOverlay" class="modal-overlay" onclick="closeModalOnBg(event)">
+      <div class="bottom-sheet" id="modalSheet"></div>
+    </div>
+
+  </div>
+
+  <script>
+    let swRegistration = null;
+
+    // 1. تسجيل Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').then((reg) => {
+        swRegistration = reg;
+      }).catch((err) => console.log('SW Error:', err));
+    }
+
+    // 2. طلب إذن الإشعارات
+    function requestNotificationPermission() {
+      if ('Notification' in window) {
+        Notification.requestPermission().then((permission) => {
+          if (permission === 'granted') {
+            showToast('تم تفعيل إشعارات النظام بنجاح');
+            renderView();
+          }
+        });
+      }
+    }
+
+    // 3. إرسال إشعار للنظام
+    function triggerSystemNotification(title, body, tag) {
+      if (swRegistration && Notification.permission === 'granted') {
+        swRegistration.active.postMessage({
+          type: 'SCHEDULE_NOTIFICATION',
+          title: title,
+          body: body,
+          tag: tag
+        });
+      }
+    }
+
+    /* State */
+    let state = {
+      activeTab: 'home',
+      medications: JSON.parse(localStorage.getItem('duwai_pro_meds') || '[]'),
+      doseLogs: JSON.parse(localStorage.getItem('duwai_pro_logs') || '[]'),
+      settings: JSON.parse(localStorage.getItem('duwai_pro_settings') || '{"userName":"","theme":"light","fontSize":"normal"}')
+    };
+
+    function saveState() {
+      localStorage.setItem('duwai_pro_meds', JSON.stringify(state.medications));
+      localStorage.setItem('duwai_pro_logs', JSON.stringify(state.doseLogs));
+      localStorage.setItem('duwai_pro_settings', JSON.stringify(state.settings));
+    }
+
+    function generateId() { return 'id_' + Math.random().toString(36).substr(2, 9); }
+    function getTodayStr() { return new Date().toISOString().split('T')[0]; }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function applyTheme(theme) { document.documentElement.setAttribute('data-theme', theme); }
+    function applyFontSize(size) { document.documentElement.setAttribute('data-font-size', size); }
+
+    function toggleTheme() {
+      state.settings.theme = state.settings.theme === 'light' ? 'dark' : 'light';
+      applyTheme(state.settings.theme);
+      saveState();
+    }
+
+    function toggleFontSize() {
+      state.settings.fontSize = state.settings.fontSize === 'normal' ? 'large' : 'normal';
+      applyFontSize(state.settings.fontSize);
+      saveState();
+    }
+
+    function genDailySchedule() {
+      const today = getTodayStr();
+      state.medications.forEach(med => {
+        if (!med.isPRN) {
+          med.times.forEach(time => {
+            const logId = `${med.id}_${today}_${time}`;
+            if (!state.doseLogs.find(l => l.id === logId)) {
+              state.doseLogs.push({ id: logId, medicationId: med.id, date: today, scheduledTime: time, status: 'Upcoming', notified: false });
+            }
+          });
+        }
+      });
+      saveState();
+    }
+
+    // 4. الفحص الدوري وإرسال التنبيهات في الموعد المحدد
+    function checkAndNotifyDoses() {
+      const today = getTodayStr();
+      const now = new Date();
+      const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+      state.doseLogs.forEach(log => {
+        if (log.date === today && log.scheduledTime === currentTimeStr && log.status === 'Upcoming' && !log.notified) {
+          const med = state.medications.find(m => m.id === log.medicationId);
+          if (med) {
+            triggerSystemNotification(
+              `تذكير بموعد دواء: ${med.name}`,
+              `حان الآن موعد جرعة ${med.dosage} (${med.quantity || 'حبة واحدة'})`,
+              log.id
+            );
+            log.notified = true;
+            saveState();
+          }
+        }
+      });
+    }
+
+    // فحص المواعيد كل 30 ثانية
+    setInterval(checkAndNotifyDoses, 30000);
+
+    function switchTab(tab, el) {
+      state.activeTab = tab;
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      if(el) el.classList.add('active');
+      renderView();
+    }
+
+    function renderView() {
+      genDailySchedule();
+      const container = document.getElementById('mainView');
+
+      let notifBanner = '';
+      if ('Notification' in window && Notification.permission !== 'granted') {
+        notifBanner = `
+          <div class="card card-notification">
+            <div>
+              <strong style="display:block; margin-bottom:2px;">تفعيل إشعارات النظام</strong>
+              <span style="font-size:0.8rem; opacity:0.9;">لتصلك التنبيهات مثل واتساب وفيسبوك</span>
+            </div>
+            <button class="btn" style="width:auto; padding:8px 16px; min-height:38px; background:var(--md-primary); color:#fff;" onclick="requestNotificationPermission()">تفعيل</button>
+          </div>
+        `;
+      }
+
+      if (state.activeTab === 'home') {
+        const today = getTodayStr();
+        const logs = state.doseLogs.filter(l => l.date === today);
+        const upcoming = logs.find(l => l.status === 'Upcoming');
+
+        let nextCard = `<div class="card" style="text-align:center; color: var(--md-on-surface-variant);">لا توجد جرعات قادمة حالياً.</div>`;
+
+        if (upcoming) {
+          const med = state.medications.find(m => m.id === upcoming.medicationId);
+          if (med) {
+            nextCard = `
+              <div class="card card-primary">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                  <span class="chip" style="background:rgba(255,255,255,0.2); color:#fff;">الجرعة القادمة</span>
+                  <span style="font-weight:800; font-size:1.2rem;">${upcoming.scheduledTime}</span>
+                </div>
+                <h3 style="font-size:1.4rem; margin-bottom:4px;">${med.name}</h3>
+                <p style="margin-bottom:16px; opacity:0.9;">الجرعة: ${med.dosage}</p>
+                <button class="btn" style="background:#FFFFFF; color:var(--md-primary);" onclick="setDoseStatus('${upcoming.id}', 'Taken')">تم تناولها</button>
+              </div>
+            `;
+          }
+        }
+
+        let logsList = logs.map(l => {
+          const m = state.medications.find(x => x.id === l.medicationId);
+          if(!m) return '';
+          return `
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--md-outline);">
+              <div>
+                <div style="font-weight:700;">${m.name}</div>
+                <div style="font-size:0.85rem; color:var(--md-on-surface-variant);">${m.dosage} • ${l.scheduledTime}</div>
+              </div>
+              <span class="chip chip-${l.status.toLowerCase()}">${l.status === 'Taken' ? 'تمت' : 'قادمة'}</span>
+            </div>
+          `;
+        }).join('') || '<div style="text-align:center; padding:20px;">لم تضف أي أدوية بعد</div>';
+
+        container.innerHTML = `
+          ${notifBanner}
+          <h2 style="font-size:1.6rem; font-weight:800; margin-bottom:4px;">مرحباً، ${state.settings.userName}</h2>
+          <p style="color:var(--md-on-surface-variant); margin-bottom:16px;">جدول جرعاتك اليومي</p>
+          ${nextCard}
+          <h3 style="font-size:1.1rem; font-weight:700; margin:22px 0 12px 0;">مواعيد اليوم</h3>
+          <div class="card">${logsList}</div>
+        `;
+      } else if (state.activeTab === 'medications') {
+        const medsList = state.medications.map(m => `
+          <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <h4 style="font-size:1.1rem; font-weight:700;">${m.name}</h4>
+              <p style="font-size:0.85rem; color:var(--md-on-surface-variant);">${m.dosage}</p>
+            </div>
+            <button class="btn btn-secondary" style="width:auto; padding:6px 12px; min-height:36px;" onclick="deleteMed('${m.id}')">حذف</button>
+          </div>
+        `).join('') || '<div style="text-align:center; padding:40px;">لا توجد أدوية مسجلة</div>';
+
+        container.innerHTML = `<h2 style="font-size:1.5rem; font-weight:800; margin-bottom:16px;">أدويتي</h2>${medsList}`;
+      } else if (state.activeTab === 'history') {
+        container.innerHTML = `<h2 style="font-size:1.5rem; font-weight:800; margin-bottom:16px;">السجل</h2><div class="card"><p style="text-align:center; padding:20px;">سجل الجرعات المكتملة يعرض هنا.</p></div>`;
+      } else if (state.activeTab === 'settings') {
+        container.innerHTML = `
+          <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:16px;">الإعدادات</h2>
+          <div class="card">
+            <div class="form-group">
+              <label>الإشعارات</label>
+              <button class="btn btn-secondary" onclick="requestNotificationPermission()">إعادة طلب إذن الإشعارات</button>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function setDoseStatus(logId, status) {
+      const log = state.doseLogs.find(l => l.id === logId);
+      if (log) {
+        log.status = status;
+        saveState();
+        renderView();
+        showToast('تم تسجيل الجرعة بنجاح');
+      }
+    }
+
+    function openAddMedModal() {
+      document.getElementById('modalSheet').innerHTML = `
+        <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:16px;">إضافة دواء جديد</h3>
+        <div class="form-group"><label>اسم الدواء</label><input type="text" id="mName" placeholder="بانادول"></div>
+        <div class="form-group"><label>الجرعة</label><input type="text" id="mDosage" placeholder="500 ملغ"></div>
+        <div class="form-group"><label>أوقات الجرعات (HH:MM)</label><input type="text" id="mTimes" placeholder="12:30, 20:00"></div>
+        <button class="btn" onclick="saveMed()">حفظ وتفعيل التنبيه</button>
+      `;
+      document.getElementById('modalOverlay').classList.add('active');
+    }
+
+    function saveMed() {
+      const name = document.getElementById('mName').value.trim();
+      const dosage = document.getElementById('mDosage').value.trim();
+      const timesStr = document.getElementById('mTimes').value.trim();
+
+      if (!name || !dosage || !timesStr) {
+        showToast('يرجى تعبئة كافة الحقول المطلوبة');
+        return;
+      }
+
+      state.medications.push({
+        id: generateId(),
+        name,
+        dosage,
+        times: timesStr.split(',').map(t => t.trim())
+      });
+
+      saveState();
+      document.getElementById('modalOverlay').classList.remove('active');
+      renderView();
+      showToast('تمت إضافة الدواء بنجاح');
+    }
+
+    function deleteMed(id) {
+      state.medications = state.medications.filter(m => m.id !== id);
+      saveState();
+      renderView();
+      showToast('تم حذف الدواء');
+    }
+
+    function closeModalOnBg(e) {
+      if (e.target.id === 'modalOverlay') document.getElementById('modalOverlay').classList.remove('active');
+    }
+
+    applyTheme(state.settings.theme);
+    applyFontSize(state.settings.fontSize);
+    renderView();
+  </script>
+</body>
+</html>
