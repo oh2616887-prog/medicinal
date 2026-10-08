@@ -5,8 +5,8 @@ self.addEventListener('message', (event) => {
     
     self.registration.showNotification(title, {
       body: body,
-      icon: 'icon.png', // يمكنك وضع مسار أيقونة تطبيقك هنا
-      badge: 'icon.png',
+      icon: 'icon.jpg', // يمكنك وضع مسار أيقونة تطبيقك هنا
+      badge: 'icon.jpg',
       tag: tag || 'duwai-notification',
       vibrate: [200, 100, 200], // نمط الاهتزاز
       dir: 'rtl',
